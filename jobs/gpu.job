@@ -1,0 +1,21 @@
+#!/bin/bash
+#SBATCH --job-name=simple        # Job name
+#SBATCH --output=logs/job.%j.out      # Name of output file (%j expands to jobId)
+#SBATCH --ntasks-per-node=1        # Schedule one core
+#SBATCH --time=2-00:00:00          # Run time (hh:mm:ss) - run for one hour max
+#SBATCH --exclude=desktop[1-16,21,23]
+#SBATCH --gres=gpu               # Schedule a GPU, or more with gpu:2 etc
+#SBATCH --partition=brown    # Run on either the Red or Brown queue
+
+# load modules
+# module load Python/3.7.4-GCCcore-8.3.0
+# module load CUDA/10.2.89-GCC-8.3.0
+
+# activate venv
+source activate anomaliv_env2
+export COMET_API_KEY=dGsxN5WyiTsSwTUGNO9CvIbnO
+#source venv/bin/activate
+srun python main1.py --yaml_config ./configs/capsule.yaml
+
+
+# Print out the hostname of the node the job is running on
